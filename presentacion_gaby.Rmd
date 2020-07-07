@@ -84,21 +84,96 @@ background-size: auto
 
 ### Tengo REPO en mi GitHub, ahora quiero tener los archivos en mi computador (copia local) para usarlos: 
 
+---
+class: middle
+
+Para hacer el fork también podemos usar el paquete `usethis`
+
+```{r eval = FALSE}
+usethis::create_from_github()
+```
 
 
 
+```{r eval = FALSE}
+usethis::create_from_github("Persona/REPO",
+                            destdir = "~/ruta")
+```
+
+Requiere que se haya configurado un token de acceso personal de GitHub.
+
+---
+class: middle, center
+## Ya tenemos el código en nuestro computador... !A usarlo!
+
+---
+background-image: url(imagenes/30nombres.png)
+background-position: 50% 99%
+background-size: auto
+
+Recordemos los nombres (por convención) que tienen los repositorios:
+
+---
+background-image: url(imagenes/30conexion.png)
+background-position: 50% 103%
+background-size: 80%
+
+
+#### Desde mi compia **local** puedo enviar cambios al **origin** (copia en GitHub)
+
+.center[**push**]
+
+#### Desde el **origin** puedo pedir que el **upstream** (repositorio original) sea modificado
+
+.center[**pull request**]
 
 
 ---
-
 class: inverse, middle
 
 Tengo una copia de un repositorio, pero su propietario lo actualizó...
-
-# CAPÍTULO 31 - GET UPSTREAM CHANGES FOR A FORK
+# CAPÍTULO 30 -  CHANGES FOR A FORK
 
 ## Traer los cambios a mi fork.
 
+---
+class: middle
+
+####GitHub NO mantiene sincronizados a:
+.center[
+Persona/REPO  
+
+Yo/REPO
+]
+
+**Solución: ** 
+
+> Agregar al **upstream** como un segundo repositorio remoto
+
+
+** Recomendación:**
+
+> Hacer el fork, clonar y luego declarar el upstream como un segundo repositorio remoto.
+
+---
+
+Recuerda que ahora estamos trabajando en la copia local de (Yo/REPO).
+
+Antes de agregar upstream como remoto:
+
+* Verifica que la rama activa sea master, es decir, desde: REPO/master
+
+IMAGEN
+
+* Verifica que todo este en orden: 
+
+.center[
+```{r eval = FALSE}
+git status
+```
+]
+
+IMAGEN
 
 ---
 
