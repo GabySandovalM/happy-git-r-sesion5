@@ -1,0 +1,128 @@
+---
+title: "Happy Git with R"
+subtitle: "Club de Lectura - Sesión 5"
+institute: "R-Ladies Chile"
+author: "Gaby Sandoval, Camila Molina"
+date: "2020-07-08"
+output:
+    xaringan::moon_reader:
+     transition: slide
+     lib_dir: libs
+     css:
+      - rladies
+      - rladies-fonts
+           
+     nature:
+      countdown: 60000
+      autoplay: 30000
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+background-image: url(RLadiesGlobal.png)
+background-position: 95% 0% 
+background-size: 10%
+
+---
+# Introducción
+
+* punto 1
+* punto 2
+
+---
+# El camino recorrido
+
+
+---
+# De la sesión 4 (sábado anterior):
+
+
+
+
+
+
+---
+# Hoy veremos
+
+###VI Daily Workflows "https://happygitwithr.com"
+
+###Capítulos:
+
+* 26 The Repeated Amend
+* 27 Dealing with push rejection
+* 28 Pull, but you have local work
+* 29 Time travel: See the past
+* 30 Fork and clone
+* 31 Get upstream changes for a fork
+* 32 Explore and extend a pull request
+* 33 Make a GitHub repo browsable
+
+---
+class: inverse, middle
+
+Profundicemos sobre los repositorios remotos:
+
+# CAPÍTULO 30 - FORK AND CLONE 
+
+## Obtener una copia de un repositorio (de alguien más) y talvez sugerir cambios.
+
+
+---
+background-image: url(imagenes/30flujo.png)
+background-position: 50% 99%
+background-size: auto
+
+# Flujo inicial:
+
+Copiar el repositorio de interés en mi GitHub:
+
+---
+background-image: url(imagenes/30flujo1.png)
+background-position: 50% 99%
+background-size: auto
+
+### Tengo REPO en mi GitHub, ahora quiero tener los archivos en mi computador (copia local) para usarlos: 
+
+
+
+
+
+
+---
+
+class: inverse, middle
+
+Tengo una copia de un repositorio, pero su propietario lo actualizó...
+
+# CAPÍTULO 31 - GET UPSTREAM CHANGES FOR A FORK
+
+## Traer los cambios a mi fork.
+
+
+---
+
+class: inverse, middle
+
+Ya tengo todo conectado y sincronizado... 
+
+¡Estamos listxs para colaborar!
+
+# CAPÍTULO 32 - EXPLORE AND EXTEND A PULL REQUEST
+
+## Recibir y dar sugerencias de cambios en repositorios.
+
+
+---
+class: inverse, middle
+
+Ya estamos colaborando...
+
+Hagamos que el repositorio sea fácil de leer.
+
+
+# CAPÍTULO 33 - MAKE A GITHUB REPO BROWSABLE
+
+## Prácticas para una navegación gratificante en su repositorio
+
+
