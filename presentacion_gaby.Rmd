@@ -404,7 +404,7 @@ Recordemos los nombres (por convención) que tienen los repositorios:
 
 ---
 background-image: url(imagenes/30conexion.png)
-background-position: 50% 103%
+background-position: 50% 100%
 background-size: 80%
 
 
@@ -446,29 +446,105 @@ Yo/REPO
 
 ---
 background-image: url(imagenes/31master.png)
-background-position: 50% -10%
+background-position: 50% 15%
 background-size: 80%
 
 Recuerda que ahora estamos trabajando en la copia local de (Yo/REPO).
 
-Antes de agregar upstream como remoto:
+### Antes de agregar upstream como remoto:
 
 * Verifica que la rama activa sea master, es decir, desde: REPO/master
 
 </br>
 </br>
+</br>
+</br>
+
 
 * Verifica que todo este en orden: 
 
 .center[
-```{r eval = FALSE}
+```{markdown}
 git status
 ```
 ]
 
-IMAGEN
+Debe aparecer un mensaje como este:
+
+```{markdown}
+
+On branch master 
+    Your branch is up to date with 'origin/master'.`
+
+    nothing to commit, working tree clean
+
+```
 
 ---
+
+### Agregar el upstream como repositorio remoto
+
+Revisar los repositorio remotos actuales:
+
+```{markdown}
+git remote -v
+```
+
+Agregar `owner/REPO` como upstream remoto:
+
+```{markdown}
+git remote add upstream http://github.com/owner/REPO.git 
+```
+
+Verificar que está agregado como upstream:
+
+```{markdown}
+git remote -v
+```
+
+Luego de la última línea deberiamos ver algo así:
+```{markdown}
+origin    https://github.com/YOU/REPO.git (fetch)
+origin    https://github.com/YOU/REPO.git (push)
+upstream  https://github.com/OWNER/REPO.git (fetch)
+upstream  https://github.com/OWNER/REPO.git (push)
+```
+
+---
+background-image: url(imagenes/31conexion.png)
+background-position: 50% 80%
+background-size: 70%
+
+### Actualizar, en mi copia local, los cambios que hizo `OWNER`.
+
+```{markdown}
+git pull upstream master --ff-only
+```
+
+.center[
+"Traiga (pull) los cambios desde el remoto upstream (rama master) a mi repositorio local"]
+
+
+---
+### Ya todo está conectado:
+
+### Recomendación:
+
+> No hacer commits desde la rama master, es mejor trabajar desde una nueva rama (branch).
+
+.center[
+###**Trabajar en una nueva rama**
+]
+
+```{markdown}
+
+```
+
+
+
+
+---
+
 
 class: inverse, middle
 
