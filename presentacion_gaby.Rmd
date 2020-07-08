@@ -27,11 +27,300 @@ background-size: 10%
 ---
 # Introducción
 
-* punto 1
-* punto 2
+###Mini resumen de las sesiones anteriores
 
 ---
-# El camino recorrido
+# Hoy veremos
+
+###VI Daily Workflows "https://happygitwithr.com"
+
+###Capítulos:
+
+* 26 The Repeated Amend
+* 27 Dealing with push rejection
+* 28 Pull, but you have local work
+* 29 Time travel: See the past
+* 30 Fork and clone
+* 31 Get upstream changes for a fork
+* 32 Explore and extend a pull request
+* 33 Make a GitHub repo browsable
+
+---
+# Sección VI
+
+###Patrones útiles de Git para la vida real
+
+* Comprometerse temprano y con frecuencia. Empuje con menos frecuencia.
+
+* Ayuda, mi empuje fue rechazado.
+
+* Integrando trabajo remoto y local.
+
+* Quemalo todo.
+
+* Viaje en el tiempo:
+
+ * "Solo necesito ver el pasado"
+ * "Necesito visitar el pasado"
+ * "Quiero volver al pasado" `git revert`, `git reset`
+ * "Tuve una gran galleta en octubre pasado" `git cherry pick`, `git checkout REF -- path`
+
+---
+class: inverse, middle
+
+# Capítulo 26
+
+###La enmienda repetida
+
+<center><img src="https://miro.medium.com/max/4000/1*J8O2xd9ZqxWr2x6EP4MHmg.png" width="450" height="150" />
+
+¡Siempre puedes volver a una versión más feliz de tu proyecto! 
+
+---
+
+###26.1 Analogía de escalada en roca
+
+<center><img src="https://i.gifer.com/2DAN.gif" width="300" height="300" />
+
+
+**Consejo:** Usa más commits cuando estás en territorio incierto o peligroso.
+
+---
+
+###26.2 Boceto de flujo de trabajo
+
+####26.2.1 Condición inicial
+
+* Paquete R? Ejecute sus pruebas o `R CMD check`.
+* ¿Análisis de los datos? Vuelve a ejecutar su secuencia de comandos o vuelva a procesar su `.Rmd` con el nuevo fragmento.
+* ¿Sitio web o libro? Asegúrese de que el proyecto aún se compila.
+* Tienes la idea.
+
+Asegúrese de que su "árbol de trabajo esté limpio" y que esté sincronizado con su control remoto GitHub. `git status` debería mostrar algo como:
+
+`On branch master`
+
+`Your branch is up to date with 'origin/master'.`
+
+`nothing to commit, working tree clean`
+
+---
+
+####26.2.2 Ponerse a trabajar
+
+Imagina que comenzamos en commit C, con commit B anterior y, antes de eso, A:
+
+`... -- A -- B -- C`
+
+Da un pequeño paso hacia tu objetivo. Vuelva a verificar que su proyecto funcione.
+
+Organice esos cambios y comprométase con el mensaje "WIP", que significa "trabajo en progreso".
+
+`git commit -m "WIP"`
+
+El mensaje puede ser cualquier cosa, pero "WIP" es una convención común.
+
+Su historia ahora se ve así:
+
+`A -- B -- C -- WIP*`
+
+**¡No empujes!** El * anterior significa una confirmación que existe solo en su repositorio local, no todavía en GitHub.
+
+---
+
+Vuelva a verificar si su proyecto aún funciona.
+
+`git commit --amend --no edit`
+
+La `--no-edit` retiene el mensaje de confirmación actual de "WIP".
+
+**¡No empujes!** Su historia ahora se ve así:
+
+`A -- B -- C -- WIP*`
+
+Pero los cambios asociados con la confirmación `WIP*` ahora representan sus dos últimas confirmaciones, es decir, todos los cambios acumulados desde el estado C. 
+
+Digamos que finalmente has logrado tu objetivo.
+
+Una última vez, verifique que su proyecto funcione y que esté dispuesto a compartirlo con otros.
+
+Comprometerse, enmendar nuevamente, pero con un mensaje de compromiso real esta vez. Piense en esto como commit D. Push. Haga esto en RStudio o en el shell:
+
+`git commit --amend -m "Implement awesome feature; closes #43"`
+`git push`
+
+Su historia en GitHub, se ve así:
+
+`A -- B -- C -- D`
+
+---
+
+###26.3 ¿Qué sucede si necesito retroceder?
+
+Imagina que estás en medio de un flujo de trabajo de modificación repetido:
+
+`A -- B -- C -- WIP*`
+
+y realiza algunos cambios que rompen su proyecto. Estos malos cambios aún no se han comprometido, pero se guardan. Desea volver al último buen estado, representado por `WIP*`.
+
+En Git, desea hacer un restablecimiento completo al estado `WIP*`.
+
+`git reset --hard`
+
+que es implícitamente lo mismo que
+
+`git reset --hard HEAD`
+
+que dice: "restablecer mis archivos a su estado en la confirmación más reciente".
+
+---
+
+###26.4 ¿Por qué no impulsamos el progreso intermedio?
+
+La modificación de un commit es un ejemplo de lo que se llama *"reescribir el historial de Git"*.
+
+Reescribir la historia que ya ha sido enviada a GitHub y, por lo tanto, potencialmente extraída por otra persona, es una práctica controvertida.
+
+Una vez que haya empujado algo, considérelo escrito en piedra y siga adelante.
+
+---
+
+###26.5 Um, ¿y si empujé?
+
+¡Te dije que no lo hicieras!
+
+Imaginemos que empujó este estado a GitHub por error:
+
+`A -- B -- C -- WIP (85bf30a)`
+
+y procedió `git commit --amend` nuevamente a nivel local, llevando a este estado:
+
+`A -- B -- C -- WIP* (6e884e6)`
+
+Tienes dos opciones:
+
+* Restablezca su repositorio local a C (`git reset --hard HEAD^`)
+
+`A -- B -- C -- WIP (85bf30a)`
+
+* Forzar empuje a Github (`git push --force`)
+
+`A -- B -- C -- WIP* (6e884e6)`
+
+Ahora estás sincronizado de nuevo.
+
+---
+
+class: inverse, middle
+
+# Capítulo 27
+
+###Manejo del rechazo de empuje
+
+
+
+---
+
+###27.1 ¡La que empuja primero gana!
+
+Es posible que haya notado que usted, el autor de D, está jugando con Git más que la persona que se comprometió y empujó C, es decir, su colaborador.
+
+<center><img src="https://4.bp.blogspot.com/-c3X_oYPqMJA/XOLKZ89gEdI/AAAAAAAAALc/R9xGJPtmLn0qmcpNUJCYDfda99wzxT0KwCLcBGAs/s1600/d6vr3cx-4253f449-0bd5-4081-8f42-3f8dec53b0ad.gif" width="300" height="300" /> 
+
+---
+
+###27.2 Mantente en contacto
+
+En general, vale la pena ser proactivamente consciente de lo que otros están haciendo (por ejemplo, jalar o buscar a menudo) que estar siempre en modo reactivo, aprendiendo sobre el trabajo de su colaborador solo cuando su empuje es rechazado.
+
+---
+
+###27.3 Usar ramas
+
+Finalmente, sus primeras experiencias colaborando con otros y con usted mismo masterle darán una comprensión visceral de por qué la mayoría de los usuarios de Git eventualmente comienzan a usar ramas.
+
+---
+
+class: inverse, middle
+
+# Capítulo 28
+
+###Pull, pero tienes trabajo local
+
+**Problema:** desea extraer los cambios desde el nivel superior, pero ha realizado un nuevo trabajo localmente desde la última vez que lo hizo.
+
+---
+
+###28.1 El trabajo local no está comprometido
+
+---
+
+###28.2 El trabajo local está comprometido
+
+---
+
+###28.3 Otros enfoques
+
+---
+
+###28.4 Algunos trabajos locales están comprometidos, otros no
+
+---
+
+class: inverse, middle
+
+# Capítulo 29
+
+###Viaje en el tiempo: ver el pasado
+
+Ejemplos:
+
+* "Me gustó más la combinación de colores de esta trama en el borrador de la semana pasada". "¿Qué pasa con ese nuevo atípico funky en la figura 2?"
+
+ * Aquí querrá visitar los scripts y los datos de origen, ya que fueron la última vez que generó visualizaciones para compartir con este colega.
+ 
+ 
+* "La compilación ha fallado en Windows durante dos semanas".
+
+ * Aquí querrá inspeccionar la fuente del paquete en la versión del "último bien conocido" y examinar las confirmaciones posteriores.
+
+---
+
+###29.1 ¡Los hipervínculos son increíbles!
+
+Aquí es donde realmente brillan GitHub (y GitLab o BitBucket). La capacidad de explorar rápidamente diferentes confirmaciones / estados, cambiar entre ramas, inspeccionar archivos individuales y ver la discusión en temas vinculados es increíblemente poderosa.
+
+---
+
+###29.2 Examinar el historial de confirmaciones y las confirmaciones específicas
+
+Desde la página de destino de su repositorio, acceda al historial de confirmaciones haciendo clic en "confirmaciones xyz". Esto es como usarlo git loglocalmente, pero mucho más gratificante. Si tiene un buen cliente local de Git , probablemente también proporcione una descripción gráfica del historial.
+
+**IMAGEN**
+
+---
+
+###29.3 Consultas basadas en archivos
+
+¿Qué pasa si está interesado en cómo un archivo específico llegó a ser como es? Primero navegue hasta el archivo, luego observe "Culpa" e "Historial" en la esquina superior derecha.
+
+**IMAGEN**
+
+---
+
+###29.4 Búsqueda
+
+La búsqueda siempre está disponible en la esquina superior derecha de GitHub.
+
+**IMAGEN**
+
+---
+
+class: inverse, middle
+
+# Ejemplo
+
+
 
 
 ---
@@ -132,7 +421,7 @@ background-size: 80%
 class: inverse, middle
 
 Tengo una copia de un repositorio, pero su propietario lo actualizó...
-# CAPÍTULO 30 -  CHANGES FOR A FORK
+# CAP 31 -  GET UPSTREAM CHANGES FOR A FORK
 
 ## Traer los cambios a mi fork.
 
@@ -156,6 +445,9 @@ Yo/REPO
 > Hacer el fork, clonar y luego declarar el upstream como un segundo repositorio remoto.
 
 ---
+background-image: url(imagenes/31master.png)
+background-position: 50% -10%
+background-size: 80%
 
 Recuerda que ahora estamos trabajando en la copia local de (Yo/REPO).
 
@@ -163,7 +455,8 @@ Antes de agregar upstream como remoto:
 
 * Verifica que la rama activa sea master, es decir, desde: REPO/master
 
-IMAGEN
+</br>
+</br>
 
 * Verifica que todo este en orden: 
 
