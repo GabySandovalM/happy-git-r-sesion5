@@ -522,7 +522,7 @@ git pull upstream master --ff-only
 ```
 
 .center[
-"Traiga (pull) los cambios desde el remoto upstream (rama master) a mi repositorio local"]
+"Traiga (pull) los cambios desde el remoto upstream en la rama master de mi repositorio local"]
 
 
 ---
@@ -530,32 +530,72 @@ git pull upstream master --ff-only
 
 ### Recomendación:
 
-> No hacer commits desde la rama master, es mejor trabajar desde una nueva rama (branch).
+> En este caso (repositorio local producto de fork y clone) no hacer commits desde la rama master, es mejor trabajar desde una nueva rama.
 
 .center[
 ###**Trabajar en una nueva rama**
 ]
 
+Para crear una nueva rama:
 ```{markdown}
-
+git branch nombre 
 ```
 
+Para cerrar la rama (volmemos a master):
+
+```{markdown}
+git branch nombre 
+git checkout nombre
+```
+
+---
+
+### Hice commit desde la rama master...
+### ¿Qué hacer?
 
 
 
 ---
-
-
 class: inverse, middle
 
 Ya tengo todo conectado y sincronizado... 
 
-¡Estamos listxs para colaborar!
 
 # CAPÍTULO 32 - EXPLORE AND EXTEND A PULL REQUEST
 
 ## Recibir y dar sugerencias de cambios en repositorios.
 
+---
+### Situación:
+
+* Eres el mantenedor de un paquete de R en GitHub.
+
+* Recibes pull request PR de colaboradores externos.
+
+* Necesitas experimentar con el PR para dar retroalimentación o antes de aceptar los cambios propuestos.
+
+* Queremos dar crédito a los colaboradores por sus commits.
+
+### Terminología:
+
+* **fork branch:** rama de un fork desde la que se hizo un PR.
+* **local branch:** rama local que se usa para trabajar con el PR.
+* **PR parent:** El SHA del commit en el repositorio principal que es la base para el PR.
+* **PR remote:** El SSH o HTTPS URL para el fork desde el que se hizo el PR.
+
+---
+En esta sección del libro se presentan 3 consejos oficiales de GitHub para la situación antes descrita. Aquí una idea resumen de las 3 versiones:
+
+* **Versión 1:** Hacer *pull* desde la *fork branch* del *PR remote*, para luego hacer las revisiones necesarias. Finalmente, hacer *push* y *merge* cuando todo esta ok.
+
+Problema: En *parent commit* de la *local branch* no será el parent commit de la *PR branch*. (Podría no ser evidente quien hizo la contribución).
+
+* **Versión 2:** Sigue la idea de la versión 1 y además considera un *pull request inactivo* (quien hizo el pull request no responde o elimino el fork).
+
+* **Versión 3:** El mantenedor puede *empujar* nuevos commits al PR empujando commits a un fork. (el mantenedor puede hacer push a la rama de un fork asociada a un PR).
+
+
+En una nueva propuesta (aun en desarrollo) la autora propone un flujo de trabajo que combina las 3 anteriores con algunos ajustes y usando la librería `git2r`.
 
 ---
 class: inverse, middle
