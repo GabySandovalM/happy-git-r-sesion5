@@ -8,21 +8,33 @@ output:
     xaringan::moon_reader:
      transition: slide
      lib_dir: libs
+     seal: false
      css:
       - rladies
       - rladies-fonts
-           
      nature:
-      countdown: 60000
-      autoplay: 30000
       highlightStyle: github
       highlightLines: true
-      countIncrementalSlides: false
 ---
-layout: true
-background-image: url(imagenes/RLadiesGlobal.png)
-background-position: 95% 0% 
-background-size: 10%
+class: inverse
+
+background-image: url(https://happygitwithr.com/img/watch-me-diff-watch-me-rebase-smaller.png)
+background-position: 90% 30%
+background-size: 40%
+
+</br>
+</br>
+#Happy Git with R
+
+##Club de lectura</br>RLadies Chile </br> Sesión 5
+</br>
+#### Camila Molina [`r icon::fa("twitter")` @calmolinafe](https://https://twitter.com/calmolinafe)
+
+#### Gabriela Sandoval [`r icon::fa("twitter")` @GabySandovalM](https://twitter.com/GabySandovalM)
+
+
+#### 08 - julio - 2020
+
 
 ---
 
@@ -465,37 +477,13 @@ La búsqueda siempre está disponible en la esquina superior derecha de GitHub.
 
 
 ---
-# De la sesión 4 (sábado anterior):
-
-
-
-
-
-
----
-# Hoy veremos
-
-###VI Daily Workflows "https://happygitwithr.com"
-
-###Capítulos:
-
-* 26 The Repeated Amend
-* 27 Dealing with push rejection
-* 28 Pull, but you have local work
-* 29 Time travel: See the past
-* 30 Fork and clone
-* 31 Get upstream changes for a fork
-* 32 Explore and extend a pull request
-* 33 Make a GitHub repo browsable
-
----
 class: inverse, middle
 
 Profundicemos sobre los repositorios remotos:
 
-# CAPÍTULO 30 - FORK AND CLONE 
+# Capítulo 30 - Fork and clone
 
-## Obtener una copia de un repositorio (de alguien más) y talvez sugerir cambios.
+### Obtener una copia de un repositorio (de alguien más) y talvez sugerir cambios.
 
 
 ---
@@ -510,7 +498,7 @@ Copiar el repositorio de interés en mi GitHub:
 ---
 background-image: url(imagenes/30flujo1.png)
 background-position: 50% 99%
-background-size: auto
+background-size: 90% 90%
 
 ### Tengo REPO en mi GitHub, ahora quiero tener los archivos en mi computador (copia local) para usarlos: 
 
@@ -526,7 +514,7 @@ usethis::create_from_github()
 
 
 ```{r eval = FALSE}
-usethis::create_from_github("Persona/REPO",
+usethis::create_from_github("Owner/REPO",
                             destdir = "~/ruta")
 ```
 
@@ -534,7 +522,9 @@ Requiere que se haya configurado un token de acceso personal de GitHub.
 
 ---
 class: middle, center
-## Ya tenemos el código en nuestro computador... !A usarlo!
+## Ya tenemos el código en nuestro computador... 
+
+##!A usarlo!
 
 ---
 background-image: url(imagenes/30nombres.png)
@@ -545,7 +535,7 @@ Recordemos los nombres (por convención) que tienen los repositorios:
 
 ---
 background-image: url(imagenes/30conexion.png)
-background-position: 50% 103%
+background-position: 50% 100%
 background-size: 80%
 
 
@@ -562,18 +552,19 @@ background-size: 80%
 class: inverse, middle
 
 Tengo una copia de un repositorio, pero su propietario lo actualizó...
-# CAPÍTULO 30 -  CHANGES FOR A FORK
 
-## Traer los cambios a mi fork.
+# Cap 31 - Get upstream changes for a fork
+
+### Traer los cambios a mi copia del repositorio.
 
 ---
 class: middle
 
 ####GitHub NO mantiene sincronizados a:
 .center[
-Persona/REPO  
+Owner/REPO  
 
-Yo/REPO
+You/REPO
 ]
 
 **Solución: ** 
@@ -586,48 +577,292 @@ Yo/REPO
 > Hacer el fork, clonar y luego declarar el upstream como un segundo repositorio remoto.
 
 ---
+background-image: url(imagenes/31master.png)
+background-position: 50% 15%
+background-size: 80%
 
-Recuerda que ahora estamos trabajando en la copia local de (Yo/REPO).
+Recuerda que ahora estamos trabajando en la copia local de (You/REPO).
 
-Antes de agregar upstream como remoto:
+### Antes de agregar upstream como remoto:
 
 * Verifica que la rama activa sea master, es decir, desde: REPO/master
 
-IMAGEN
+</br>
+</br>
+</br>
+</br>
+
 
 * Verifica que todo este en orden: 
 
 .center[
-```{r eval = FALSE}
+```{markdown}
 git status
 ```
 ]
 
-IMAGEN
+Debe aparecer un mensaje como este:
+
+```{markdown}
+
+On branch master 
+    Your branch is up to date with 'origin/master'.`
+
+    nothing to commit, working tree clean
+
+```
 
 ---
 
-class: inverse, middle
+### Agregar el upstream como repositorio remoto
 
-Ya tengo todo conectado y sincronizado... 
+Revisar los repositorio remotos actuales:
 
-¡Estamos listxs para colaborar!
+```{markdown}
+git remote -v
+```
 
-# CAPÍTULO 32 - EXPLORE AND EXTEND A PULL REQUEST
+Agregar `Owner/REPO` como upstream remoto:
 
-## Recibir y dar sugerencias de cambios en repositorios.
+```{markdown}
+git remote add upstream http://github.com/Owner/REPO.git 
+```
 
+Verificar que está agregado como upstream:
+
+```{markdown}
+git remote -v
+```
+
+Luego de la última línea deberiamos ver algo así:
+```{markdown}
+origin    https://github.com/You/REPO.git (fetch)
+origin    https://github.com/You/REPO.git (push)
+upstream  https://github.com/Owner/REPO.git (fetch)
+upstream  https://github.com/Owner/REPO.git (push)
+```
+
+---
+background-image: url(imagenes/31conexion.png)
+background-position: 50% 80%
+background-size: 70%
+
+### Actualizar, en mi copia local, los cambios que hizo `OWNER`.
+
+```{markdown}
+git pull upstream master --ff-only
+```
+
+.center[
+"Traiga (pull) los cambios desde el remoto upstream en la rama master de mi repositorio local"]
+
+
+---
+class: middle
+### ¡Ya todo está conectado!
+
+### Recomendación:
+
+> En este caso (repositorio local producto de fork y clone) no hacer commits desde la rama master, es mejor trabajar desde una nueva rama.
+
+.center[
+###**Trabajar en una nueva rama**
+]
+
+Para crear una nueva rama:
+```{markdown}
+git branch nombre 
+```
+
+Para cerrar la rama (volmemos a master):
+
+```{markdown}
+git branch nombre 
+git checkout nombre
+```
+
+---
+class: middle
+### Hice commit desde la rama master...
+### ¿Qué hacer?
+
+Tenemos algo así:
+
+* `Owner/REPO`: 
+
+.center[`... -- A -- B -- C -- D -- E -- F`]
+
+* La rama `master` en mi copia local:
+
+.center[`... -- A -- B -- C -- X -- Y -- Z`]
+
+**¿Por qué esto es un problema?**
+
+---
+class: middle
+
+Hay dos opciones:
+
+1. Si **quiero conservar** mis cambios: crear una nueva rama para guardar ahi mis cambios.
+
+Para crear la rama y cerrarla usamos: 
+.center[`git checkout -b mis-cambios`]
+Luego cierro también la rama master:
+.center[`git checkout master`]
+
+2. Si **no quiero conservar** mis cambios: reiniciamos la rama master a un punto. 
+.center[`git reset --hard C`]
 
 ---
 class: inverse, middle
 
-Ya estamos colaborando...
+En el caso en que soy mantenedor/a de un paquete: 
+
+
+# Capítulo 32 - Explore and extend a pull request - PR
+
+### Recibir un PR y dar sugerencias de cambios en el PR.
+
+---
+class: middle
+### Situación:
+
+* Eres el mantenedor de un paquete de R en GitHub.
+
+* Recibes pull request PR de colaboradores externos.
+
+* Necesitas experimentar con el PR para dar retroalimentación o antes de aceptar los cambios propuestos.
+
+* Queremos dar crédito a los colaboradores por sus commits.
+
+### Terminología:
+
+* **fork branch:** rama de un fork desde la que se hizo un PR.
+* **local branch:** rama local que se usa para trabajar con el PR.
+* **PR parent:** El SHA del commit en el repositorio principal que es la base para el PR.
+* **PR remote:** El SSH o HTTPS URL para el fork desde el que se hizo el PR.
+
+---
+class: middle
+
+En esta sección del libro se presentan 3 consejos oficiales de GitHub para la situación antes descrita. Aquí una idea resumen de las 3 versiones:
+
+* **Versión 1:** Hacer **pull** desde la **fork branch** del **PR remote**, para luego hacer las revisiones necesarias. Finalmente, hacer **push** y **merge** cuando todo esta ok.
+</br> </br> Problema: En **parent commit** de la **local branch** no será el **parent commit** de la **PR branch**. (Podría no ser evidente quien hizo la contribución).
+
+* **Versión 2:** Sigue la idea de la versión 1 y además considera un **pull request inactivo** (quien hizo el pull request no responde o elimino el fork).
+
+* **Versión 3:** El mantenedor puede **empujar** nuevos commits al PR empujando commits a un fork (el mantenedor puede hacer push a la rama de un fork asociada a un PR).
+
+En una nueva propuesta (aun en desarrollo) la autora propone un flujo de trabajo que combina las 3 anteriores con algunos ajustes y usando la librería `git2r`.
+
+---
+class: inverse, middle
+
 
 Hagamos que el repositorio sea fácil de leer.
 
 
-# CAPÍTULO 33 - MAKE A GITHUB REPO BROWSABLE
+# Capítulo 33 - Make a GitHub repo browsable
 
-## Prácticas para una navegación gratificante en su repositorio
+### Prácticas para una navegación gratificante en su repositorio
+
+---
+class: middle
+
+###Sé inteligente sobre los archivos
+- Archivos en forma simple.
+- Texto plano es lo mejor.
+
+###¿Hacer o no commit de productos derivados?
+- Por ejemplo: .Rmd --> .md --> .html
+- Algunos dirán que si, otros que no.
+- "Que podamos hacer todo desde cero no significa que queremos hacerlo".
 
 
+---
+### Cosas interesantes que puede hacer GitHub con varios tipos de archivos:
+
+### Markdown
+- Es un buen formato predeterminado para archivos de texto narrativo.
+- guía para aprevechar [Markdown en GitHub](https://guides.github.com/features/mastering-markdown/#GitHub-flavored-markdown)
+
+### RMarkdown
+- Podemos obtener el markdown `.md` intermedio.
+
+```{r eval = FALSE}
+---
+output:
+  html_document:
+    keep_md: TRUE
+---
+```
+
+- Hacer commit del `.Rmd` y del `.md`.
+
+
+
+---
+class: middle
+
+- Otra opcion es usar un `github document`
+
+```{r eval = FALSE}
+---
+output: github_document
+---
+```
+
+* También podemos explorar los [Gist](https://gist.github.com/) cuando queremos crear un documento rápido que no encaja en un repositorio.
+
+### README.md
+
+* Es la pagina de destino de un repositorio.
+* Un subdirectorio dentro de un repositorio puede tener su propio `README.md`. [Ver](https://github.com/jennybc/gapminder/tree/master/data-raw#readme)
+* Algunos repositorios son solo un `README.md`. [Ver](https://github.com/jennybc/orly-full-res#readme)
+
+
+---
+class: middle
+
+### Encontrar cosas
+- En un repositorio presiona t (se abre un buscador de archivos).
+- Cuando esté viendo un archivo específico presione y (obtedrá un link permanente).
+
+
+### Html
+- Un archivo .html no tiene una vista sin formato.
+- Podemos generar un preview con: [vista previa de HTML de GitHub y BitBucket](https://htmlpreview.github.io/)
+
+### Archivos delimitado
+
+- GitHub proporciona una buena representación de archivos `.csv` y `.tsv`. [Ver](https://github.com/MinCiencia/Datos-COVID19)
+
+
+---
+class: middle
+### PNG 
+- Se prefiere (por ahora) el formato PNG.
+- PNG es el formato "sin complicaciones" en el que se almacenan figuras para la web.
+
+
+### Descargar como .zip
+
+- Si agrega `/archive/master.zip` al final de la URL de su repositorio, construye un enlace que descargará un archivo ZIP de su repositorio.
+
+- Ya puedes compartir el link `https://github.com/usuario/repositorio/archive/master.zip`
+
+---
+class:middle
+# Referencias:
+
+* Las imágenes presentadas en los cap 30 y 31 son modificaciones de las presentadas en el libro Happy Git with R.
+
+* Esta presentación se realizó con el paquete [`Xaringan`](https://cran.r-project.org/web/packages/xaringan/index.html) usando el theme `rladies`.
+
+
+---
+class: inverse center middle
+##¡Gracias por venir hoy!##
+
+![](https://media.giphy.com/media/8dYmJ6Buo3lYY/giphy.gif)
