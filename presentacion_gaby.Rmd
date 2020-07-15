@@ -57,7 +57,7 @@ background-size: 40%
 * 33 Make a GitHub repo browsable
 
 ---
-# Sección VI
+# Sección VI 
 
 ###Patrones útiles de Git para la vida real
 
